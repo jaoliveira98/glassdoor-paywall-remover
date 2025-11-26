@@ -3,17 +3,17 @@
 
   let observer;
 
-  function removePaywall() {
+  function removeSignIn() {
     // Remove body inline styles if they block scroll
     if (document.body?.hasAttribute("style")) {
       document.body.removeAttribute("style");
     }
 
-    // Find and remove paywall overlays
-    const paywalls = document.querySelectorAll(
+    // Find and remove sign in overlays
+    const signInWalls = document.querySelectorAll(
       "#HardsellOverlay, .hardsellOverlay, .hardsellContainer, .hardsell"
     );
-    paywalls.forEach((el) => el.remove());
+    signInWalls.forEach((el) => el.remove());
 
     // Restore scroll if needed
     if (
@@ -23,7 +23,7 @@
       document.body.style.overflow = "auto";
     }
 
-    if (paywalls.length > 0) {
+    if (signInWalls.length > 0) {
       stopObserver();
     }
   }
@@ -33,7 +33,7 @@
 
     observer = new MutationObserver((mutations) => {
       for (const m of mutations) {
-        // Check added nodes for paywall classes/ids
+        // Check added nodes for sign-in classes/ids
         for (const node of m.addedNodes) {
           if (node.nodeType === 1) {
             const el = node;
@@ -41,7 +41,7 @@
               el.id?.includes("Hardsell") ||
               el.className?.toString().includes("hardsell")
             ) {
-              removePaywall();
+              removeSignIn();
               return; // stop after first detection
             }
           }
@@ -52,7 +52,6 @@
     observer.observe(document.body, {
       childList: true,
       subtree: true,
-      // no attributes → less noise
     });
   }
 
@@ -68,7 +67,7 @@
     const enabled = result.cleanViewEnabled !== false;
 
     if (enabled) {
-      removePaywall(); // catch if already present
+      removeSignIn(); // catch if already present
       startObserver();
     }
   });
@@ -77,7 +76,7 @@
   chrome.runtime.onMessage.addListener((message) => {
     if (message.action === "toggleCleanView") {
       if (message.enabled) {
-        removePaywall();
+        removeSignIn();
         startObserver();
       } else {
         stopObserver();

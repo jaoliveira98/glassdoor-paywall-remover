@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Glassdoor Paywall Blocker",
+  "name": "Glassdoor Sign In Blocker",
   "version": "1.0",
-  "description": "Remove paywalls from Glassdoor",
+  "description": "Removes sign in blocker from Glassdoor",
   "permissions": ["storage", "tabs"],
   "host_permissions": ["*://*.glassdoor.co.uk/*", "*://*.glassdoor.com/*"],
   "action": {
